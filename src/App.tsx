@@ -1,14 +1,15 @@
-import './App.css'
-import Navbar from './components/layouts/Navbar'
-import { Button } from './components/ui/button'
+import { Outlet } from "react-router";
+import "./App.css";
+import CommonLayout from "./components/layouts/CommonLayout";
 
 function App() {
   return (
     <>
-    <Navbar/>
-      <Button >this is shadcn button</Button>
+      <CommonLayout>
+        <Outlet />
+      </CommonLayout>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
