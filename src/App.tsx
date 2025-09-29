@@ -1,10 +1,12 @@
 import './App.css'
+import Navbar from './components/layouts/Navbar'
 import { Button } from './components/ui/button'
 
 function App() {
   return (
     <>
-      <Button variant="outline">this is shadcn button</Button>
+    <Navbar/>
+      <Button >this is shadcn button</Button>
     </>
   )
 }
