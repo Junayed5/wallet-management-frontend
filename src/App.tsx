@@ -1,12 +1,17 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import "./App.css";
 import CommonLayout from "./components/layouts/CommonLayout";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
       <CommonLayout>
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <Outlet key={location.pathname} />
+        </AnimatePresence>
       </CommonLayout>
     </>
   );

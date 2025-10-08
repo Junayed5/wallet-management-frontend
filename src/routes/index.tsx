@@ -4,6 +4,7 @@ import Contact from "@/pages/Contact";
 import FAQ from "@/pages/FAQ";
 import Features from "@/pages/Features";
 import HomePage from "@/pages/HomePage";
+import Pricing from "@/pages/Pricing";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 Component: FAQ,
                 path: "/faq"
+            },
+            {
+                Component: Pricing,
+                path: "/pricing"
             }
         ]
     }
