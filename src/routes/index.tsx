@@ -47,7 +47,11 @@ const router = createBrowserRouter([
                 path: "/register"
             }
         ]
-    }
+    },
+    // {
+    //     Component: DashboardLayout,
+    //     path: "/dashboard",
+    // }
 ]);
 
 export default router;
