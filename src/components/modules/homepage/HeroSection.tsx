@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 export default function HeroSection() {
   return (
@@ -37,8 +38,14 @@ export default function HeroSection() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="mt-8 flex justify-center gap-4"
         >
-          <Button>Get Started</Button>
-          <Button variant="outline">Learn More</Button>
+          <Link to="/register">
+            <Button className="cursor-pointer">Get Started</Button>
+          </Link>
+          <Link to="/features">
+            <Button className="cursor-pointer" variant="outline">
+              Learn More
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>

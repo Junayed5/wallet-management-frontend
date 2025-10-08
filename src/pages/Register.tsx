@@ -13,8 +13,9 @@ import { Link } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-export default function Login() {
+export default function Register() {
   const formSchema = z.object({
+    name: z.string().min(1, "Name is required"),
     phone: z
       .string()
       .min(11, "Phone number must be at least 11 digits")
@@ -24,20 +25,14 @@ export default function Login() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       phone: "",
       password: "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    // setIsLoading(true);
-    // console.log("Form Submitted:", data);
-
-    // // Simulate API call
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // setIsLoading(false);
-    // setIsSubmitted(true);
+   
     console.log(data);
   };
 
@@ -51,21 +46,41 @@ export default function Login() {
                  text-gray-900 dark:text-white min-h-[80vh] flex items-center justify-center px-6"
     >
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
-        <h2 className="text-3xl font-bold text-center mb-2">Welcome Back 👋</h2>
+        <h2 className="text-3xl font-bold text-center mb-2">Welcome To MYCASH👋</h2>
         <p className="text-center text-gray-500 dark:text-gray-400 mb-6">
-          Login to your{" "}
+          Create your{" "}
           <span className="font-semibold text-primary">MYCASH</span> account
         </p>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            
+            <div>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="John Doe"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div>
               <FormField
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Phone Number</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
@@ -78,6 +93,7 @@ export default function Login() {
                 )}
               />
             </div>
+            {/* Password */}
             <div>
               <FormField
                 control={form.control}
@@ -110,12 +126,7 @@ export default function Login() {
           </form>
         </Form>
 
-        <h3>
-          New to MYCASH?{" "}
-          <Link to="/register" className="text-primary">
-            Create an account
-          </Link>
-        </h3>
+        <h3>Already have an account? <Link to="/login" className="text-primary">Login</Link></h3>
       </div>
     </motion.div>
   );
