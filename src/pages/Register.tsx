@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useCreateWalletMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
 
 export default function Register() {
   const formSchema = z.object({
@@ -31,8 +33,23 @@ export default function Register() {
     },
   });
 
+  const [createWallet] = useCreateWalletMutation()
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-   
+    const walletInfo = {
+      name: data.name,
+      phone: data.phone,
+      password: data.password,
+    };
+
+    try {
+      const result = await createWallet(walletInfo).unwrap();
+      console.log(result)
+      toast.success("Wallet created successfully!");
+    } catch (error) {
+      console.error("Failed to create wallet:", error);
+    }
+
     console.log(data);
   };
 
