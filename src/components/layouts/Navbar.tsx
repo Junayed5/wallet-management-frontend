@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/popover"
 import { ModeToggle } from "../ModeToggler"
 import { Link } from "react-router"
+import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -25,6 +26,11 @@ const navigationLinks = [
 ]
 
 export default function Navbar() {
+
+  const {data} = useGetMyWalletQuery(undefined);
+  console.log(data);
+
+
   return (
     <header className=" border-b px-4 md:px-6">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">

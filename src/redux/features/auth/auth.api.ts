@@ -16,7 +16,13 @@ const authApi = baseApi.injectEndpoints({
         data: userInfo,
       }),
     }),
+    getMyWallet: builder.query({
+      query: () => ({
+        url: "/wallet/me",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useWalletLoginMutation } = authApi;
+export const { useRegisterMutation, useWalletLoginMutation, useGetMyWalletQuery } = authApi;
