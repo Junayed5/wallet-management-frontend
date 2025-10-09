@@ -2,14 +2,21 @@ import { baseApi } from "@/redux/baseApi";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createWallet: builder.mutation({
-      query: (walletInfo) => ({
+    register: builder.mutation({
+      query: (userInfo) => ({
         url: "/wallet/register",
         method: "POST",
-        body: walletInfo,
+        data: userInfo,
+      }),
+    }),
+    walletLogin: builder.mutation({
+      query: (userInfo) => ({
+        url: "/auth/login",
+        method: "POST",
+        data: userInfo,
       }),
     }),
   }),
 });
 
-export const { useCreateWalletMutation } = authApi;
+export const { useRegisterMutation, useWalletLoginMutation } = authApi;

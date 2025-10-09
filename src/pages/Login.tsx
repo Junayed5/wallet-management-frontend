@@ -12,8 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { toast } from "sonner";
+import { useWalletLoginMutation } from "@/redux/features/auth/auth.api";
 
 export default function Login() {
+
+  const [login] = useWalletLoginMutation()
+
   const formSchema = z.object({
     phone: z
       .string()
@@ -29,16 +34,22 @@ export default function Login() {
     },
   });
 
+  
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    // setIsLoading(true);
-    // console.log("Form Submitted:", data);
 
-    // // Simulate API call
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // setIsLoading(false);
-    // setIsSubmitted(true);
-    console.log(data);
+    const walletInfo = {
+      phone: data.phone,
+      password: data.password,
+    };
+    try {
+      const result = await login(walletInfo).unwrap();
+      toast.success("Login successful!");
+      console.log(result);
+    } catch (error) {
+      toast.error("Failed to login.");
+      console.error("Failed to login:", error);
+    }
   };
 
   return (
