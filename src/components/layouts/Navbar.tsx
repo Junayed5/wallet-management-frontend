@@ -1,35 +1,50 @@
-import Logo from "@/assets/icon/Logo"
-import { Button } from "@/components/ui/button"
+import Logo from "@/assets/icon/Logo";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { ModeToggle } from "../ModeToggler"
-import { Link } from "react-router"
-import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api"
+} from "@/components/ui/popover";
+import { ModeToggle } from "../ModeToggler";
+import { Link } from "react-router";
+import {
+  authApi,
+  // authApi,
+  useGetMyWalletQuery,
+  useLogoutMutation,
+} from "@/redux/features/auth/auth.api";
+import { useDispatch } from "react-redux";
+import { role } from "@/constants/role";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "/", label: "Home"},
-  { href: "/about", label: "About" },
-  { href: "/features", label: "Features" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "FAQ" },
-]
+  { href: "/", label: "Home", role: "PUBLIC" },
+  { href: "/about", label: "About", role: "PUBLIC" },
+  { href: "/features", label: "Features", role: "PUBLIC" },
+  { href: "/pricing", label: "Pricing", role: "PUBLIC" },
+  { href: "/contact", label: "Contact", role: "PUBLIC" },
+  { href: "/faq", label: "FAQ", role: "PUBLIC" },
+  { href: "/admin", label: "Dashboard", role: role.admin },
+  { href: "/agent", label: "Dashboard", role: role.agent },
+  { href: "/user", label: "Dashboard", role: role.user },
+];
 
 export default function Navbar() {
+  const { data } = useGetMyWalletQuery(undefined);
+  const dispatch = useDispatch();
 
-  const {data} = useGetMyWalletQuery(undefined);
-  console.log(data);
-
+  const [logout] = useLogoutMutation();
+  const handleLogout = async () => {
+   const data = await logout(undefined);
+   console.log(data)
+     dispatch(authApi.util.resetApiState());
+  };
 
   return (
     <header className=" border-b px-4 md:px-6">
@@ -75,15 +90,26 @@ export default function Navbar() {
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink asChild
-                        className="py-1.5"
-                      >
-                        <Link to={link.href} className="w-full block">
-                          {link.label}
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    <>
+                      {link.role === "PUBLIC" && (
+                        <NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuLink asChild className="py-1.5">
+                            <Link to={link.href} className="w-full block">
+                              {link.label}
+                            </Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )}
+                      {link.role === data?.wallet?.role && (
+                        <NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuLink asChild className="py-1.5">
+                            <Link to={link.href} className="w-full block">
+                              {link.label}
+                            </Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )}
+                    </>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -98,13 +124,26 @@ export default function Navbar() {
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink asChild
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      <Link to={link.href}>{link.label}</Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
+                  <>
+                    {link.role === "PUBLIC" && (
+                      <NavigationMenuItem key={index} className="w-full">
+                        <NavigationMenuLink asChild className="py-1.5">
+                          <Link to={link.href} className="w-full block">
+                            {link.label}
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    )}
+                    {link.role === data?.wallet?.role && (
+                      <NavigationMenuItem key={index} className="w-full">
+                        <NavigationMenuLink asChild className="py-1.5">
+                          <Link to={link.href} className="w-full block">
+                            {link.label}
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    )}
+                  </>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -113,14 +152,27 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle />
-          <Button asChild variant="ghost" size="sm" className="text-sm">
-            <Link to="/login">Sign In</Link>
-          </Button>
-          <Button asChild size="sm" className="text-sm">
-            <Link to="/register">Get Started</Link>
-          </Button>
+          {data?.wallet?.phone && (
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="text-sm"
+            >
+              Logout
+            </Button>
+          )}
+          {!data?.wallet?.phone && (
+            <Button asChild variant="ghost" size="sm" className="text-sm">
+              <Link to="/login">Sign In</Link>
+            </Button>
+          )}
+          {!data?.wallet?.phone && (
+            <Button asChild variant="default" size="sm" className="text-sm">
+              <Link to="/register">Get Started</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
-  )
+  );
 }
