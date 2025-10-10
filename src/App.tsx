@@ -2,9 +2,13 @@ import { Outlet, useLocation } from "react-router";
 import "./App.css";
 import CommonLayout from "./components/layouts/CommonLayout";
 import { AnimatePresence } from "framer-motion";
+import { generateRoutes } from "./utils/generateRoutes";
+import { adminSideItems } from "./routes/adminSideItems";
 
 function App() {
   const location = useLocation();
+
+  console.log(generateRoutes(adminSideItems))
 
   return (
     <>
