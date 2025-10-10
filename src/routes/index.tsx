@@ -1,7 +1,6 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import About from "@/pages/About";
-import AgentTransaction from "@/pages/Agent/AgentTransaction";
 import Contact from "@/pages/Contact";
 import FAQ from "@/pages/FAQ";
 import Features from "@/pages/Features";
@@ -9,11 +8,12 @@ import HomePage from "@/pages/HomePage";
 import Login from "@/pages/Login";
 import Pricing from "@/pages/Pricing";
 import Register from "@/pages/Register";
-import UserTransaction from "@/pages/User/UserTransaction";
-import { generateRoutes } from "@/utils/generateRoutes";
+import { generateRoutes, generateUserRoutes } from "@/utils/generateRoutes";
 import { createBrowserRouter } from "react-router";
 import type { RouteObject } from "react-router";
 import { adminSideItems } from "./adminSideItems";
+import { userSidebarItems } from "./userSideItems";
+import { agentSidebarItems } from "./agentSideItems";
 
 const router = createBrowserRouter([
   {
@@ -62,22 +62,12 @@ const router = createBrowserRouter([
   {
     Component: DashboardLayout,
     path: "/user",
-    children: [
-      {
-        Component: UserTransaction,
-        path: "transactions",
-      },
-    ],
+    children: [...generateUserRoutes(userSidebarItems)],
   },
   {
     Component: DashboardLayout,
-    path: "/Agent",
-    children: [
-      {
-        Component: AgentTransaction,
-        path: "transactions",
-      },
-    ],
+    path: "/agent",
+    children: [...generateUserRoutes(agentSidebarItems)],
   },
 ]);
 

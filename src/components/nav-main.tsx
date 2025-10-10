@@ -16,9 +16,11 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
+import type { TRole } from "@/types";
 
 export function NavMain({
   items,
+  role,
 }: {
   items: {
     title: string;
@@ -29,11 +31,11 @@ export function NavMain({
       title: string;
       url: string;
     }[];
-  }[];
+  }[], role: TRole;
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      {role === "ADMIN" && <SidebarGroupLabel>Platform</SidebarGroupLabel>}
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

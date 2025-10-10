@@ -24,21 +24,24 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import type { TRole } from "@/types"
 
 export function NavProjects({
   projects,
+  role
 }: {
   projects: {
     name: string
     url: string
     icon: LucideIcon
-  }[]
+  }[] , role: TRole
 }) {
   const { isMobile } = useSidebar()
+  console.log(projects)
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      {role === "AGENT" || role === "USER" && <SidebarGroupLabel>Dashboard</SidebarGroupLabel>}
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -77,12 +80,6 @@ export function NavProjects({
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal className="text-sidebar-foreground/70" />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   )

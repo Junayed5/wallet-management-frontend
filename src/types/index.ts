@@ -34,3 +34,12 @@ export interface ISidebar {
   icon?: IconType;
   items: AdminSideItem[];
 }
+
+export interface IUserSideItem {
+  name: string;
+  url: string;
+  icon?: IconType;
+  component: ComponentType<unknown>
+}
+
+export type TRole = "ADMIN" | "AGENT" | "USER"
