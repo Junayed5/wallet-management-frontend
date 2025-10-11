@@ -1,5 +1,5 @@
 import type { AdminSideItems } from "@/types";
-import { BookOpen } from "lucide-react";
+import { BookOpen, EyeIcon } from "lucide-react";
 import { lazy } from "react";
 
 const AllWallets = lazy(() => import("@/pages/Admin/AllWallets"));
@@ -9,7 +9,7 @@ export const adminSideItems: AdminSideItems = [
     {
       title: "Observation",
       url: "#",
-      icon: BookOpen,
+      icon: EyeIcon,
       items: [
         {
           title: "All Wallets",
