@@ -9,11 +9,15 @@ import Login from "@/pages/Login";
 import Pricing from "@/pages/Pricing";
 import Register from "@/pages/Register";
 import { generateRoutes, generateUserRoutes } from "@/utils/generateRoutes";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import type { RouteObject } from "react-router";
 import { adminSideItems } from "./adminSideItems";
 import { userSidebarItems } from "./userSideItems";
 import { agentSidebarItems } from "./agentSideItems";
+import Unauthorized from "@/pages/Unauthorized";
+import { withAuth } from "@/utils/withAuth";
+import { role } from "@/constants/role";
+import type { TRole } from "@/types";
 
 const router = createBrowserRouter([
   {
@@ -52,22 +56,26 @@ const router = createBrowserRouter([
         Component: Register,
         path: "/register",
       },
+      {
+        Component: Unauthorized,
+        path: "/unauthorized",
+      },
     ],
   },
   {
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout, role.admin as TRole),
     path: "/admin",
-    children: generateRoutes(adminSideItems).filter(Boolean) as RouteObject[],
+    children: [{index: true, element: <Navigate to="/admin/wallets" />},...generateRoutes(adminSideItems).filter(Boolean) as RouteObject[]],
   },
   {
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout, role.user as TRole),
     path: "/user",
-    children: [...generateUserRoutes(userSidebarItems)],
+    children: [{index: true, element: <Navigate to="/user/transactions" />},...generateUserRoutes(userSidebarItems)],
   },
   {
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout, role.agent as TRole),
     path: "/agent",
-    children: [...generateUserRoutes(agentSidebarItems)],
+    children: [{index: true, element: <Navigate to="/agent/transactions" />},...generateUserRoutes(agentSidebarItems)],
   },
 ]);
 

@@ -1,7 +1,9 @@
-import AllTransactions from "@/pages/Admin/AllTransactions";
-import AllWallets from "@/pages/Admin/AllWallets";
 import type { AdminSideItems } from "@/types";
 import { BookOpen } from "lucide-react";
+import { lazy } from "react";
+
+const AllWallets = lazy(() => import("@/pages/Admin/AllWallets"));
+const AllTransactions = lazy(() => import("@/pages/Admin/AllTransactions"));
 
 export const adminSideItems: AdminSideItems = [
     {

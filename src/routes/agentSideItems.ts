@@ -1,8 +1,10 @@
 // import type { IUserSideItems } from "@/types";
-import AgentTransaction from "@/pages/Agent/AgentTransaction";
-import UserTransaction from "@/pages/User/UserTransaction";
 import type { IUserSideItem } from "@/types";
 import { Frame, PieChart, Book } from "lucide-react";
+import { lazy } from "react";
+
+const AgentTransaction = lazy(() => import("@/pages/Agent/AgentTransaction"));
+const UserTransaction = lazy(() => import("@/pages/User/UserTransaction"));
 
 export const agentSidebarItems: IUserSideItem[] = [
   {
