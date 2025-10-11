@@ -1,13 +1,13 @@
-import { useGetAllWalletsQuery } from "@/redux/features/admin/admin.api";
+import TableComponent from "@/components/Table";
 
     
 const AllWallets = () => {
 
-    const { data, isLoading } = useGetAllWalletsQuery(undefined);
-    console.log(data, isLoading);
+
     return (
         <div>
-            <h1>All Wallets</h1>
+            <h1 className="font-semibold text-2xl">All Wallets</h1>
+            <TableComponent/>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Folder,
@@ -6,7 +6,7 @@ import {
   MoreHorizontal,
   Trash2,
   type LucideIcon,
-} from "lucide-react"
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -23,26 +23,27 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import type { TRole } from "@/types"
-import { Link } from "react-router"
+} from "@/components/ui/sidebar";
+import type { TRole } from "@/types";
+import { Link } from "react-router";
 
 export function NavProjects({
   projects,
-  role
+  role,
 }: {
   projects: {
-    name: string
-    url: string
-    icon: LucideIcon
-  }[] , role: TRole
+    name: string;
+    url: string;
+    icon: LucideIcon;
+  }[];
+  role: TRole;
 }) {
-  const { isMobile } = useSidebar()
-  console.log(projects)
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      {role === "AGENT" || role === "USER" && <SidebarGroupLabel>Dashboard</SidebarGroupLabel>}
+      {role === "AGENT" ||
+        (role === "USER" && <SidebarGroupLabel>Dashboard</SidebarGroupLabel>)}
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -83,5 +84,5 @@ export function NavProjects({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

@@ -21,7 +21,7 @@ import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: walletData } = useGetMyWalletQuery(undefined);
-  console.log(walletData);
+  // console.log(walletData);
   const data = {
     user: {
       name: "shadcn",

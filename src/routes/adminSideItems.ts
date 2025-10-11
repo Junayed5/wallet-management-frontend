@@ -1,3 +1,5 @@
+import ManageAgent from "@/pages/Admin/ManageAgent";
+import ManageUser from "@/pages/Admin/ManageUser";
 import type { AdminSideItems } from "@/types";
 import { BookOpen, EyeIcon } from "lucide-react";
 import { lazy } from "react";
@@ -29,21 +31,15 @@ export const adminSideItems: AdminSideItems = [
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Manage User",
+          url: "/admin/manage-user",
+          component: ManageUser
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
+          title: "Manage Agent",
+          url: "/admin/manage-agent",
+          component: ManageAgent
+        }
       ],
     },
   ]

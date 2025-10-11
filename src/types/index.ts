@@ -39,7 +39,32 @@ export interface IUserSideItem {
   name: string;
   url: string;
   icon?: IconType;
-  component: ComponentType<unknown>
+  component: ComponentType<unknown>;
 }
 
-export type TRole = "ADMIN" | "AGENT" | "USER"
+export type TRole = "ADMIN" | "AGENT" | "USER";
+
+export interface TTransaction {
+  _id: string;
+  senderNumber: string;
+  receiverNumber: string;
+  amount: string;
+  commission: string;
+  transactionType: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface TWallet {
+  _id: string;
+  name: string;
+  phone: string;
+  password: string;
+  role: string;
+  isActive: string;
+  isVerified: string;
+  wallet: {
+    balance: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+}
