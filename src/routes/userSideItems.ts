@@ -1,7 +1,7 @@
 // import type { IUserSideItems } from "@/types";
-import { AddMoney } from "@/pages/User/AddMoney";
+import AddMoney from "@/pages/User/AddMoney";
 import SendMoney from "@/pages/User/SendMoney";
-import { WithdrawMoney } from "@/pages/User/WithdrawMoney";
+import WithdrawMoney from "@/pages/User/WithdrawMoney";
 import type { IUserSideItem } from "@/types";
 import {  Book, Send, SendHorizonalIcon, TicketPlus } from "lucide-react";
 import { lazy } from "react";
@@ -16,8 +16,8 @@ export const userSidebarItems: IUserSideItem[] = [
     component: SendMoney,
   },
   {
-    name: "Withdraw",
-    url: "/user/withdraw",
+    name: "Cash Out",
+    url: "/user/cash-out",
     icon: SendHorizonalIcon,
     component: WithdrawMoney,
   },

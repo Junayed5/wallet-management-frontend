@@ -68,3 +68,11 @@ export interface TWallet {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface TError {
+  status: number;
+  data: {
+    message: string;
+    success: boolean;
+  };
+}

@@ -16,7 +16,6 @@ import Logo from "@/assets/icon/Logo";
 import { Link } from "react-router";
 import { getAdminSidebarItems, getSidebarItems } from "@/utils/getSidebarItems";
 import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api";
-import { da } from "zod/v4/locales";
 
 // This is sample data.
 
@@ -26,7 +25,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     user: {
       name: walletData?.wallet?.name || "Shadcn",
       phone: walletData?.wallet?.phone || "017xxxxxxxx",
-      avatar: "/avatars/shadcn.jpg",
+      balance: walletData?.wallet?.wallet?.balance || "0.00",
     },
     teams: [],
     navMain: getAdminSidebarItems(walletData?.wallet?.role),

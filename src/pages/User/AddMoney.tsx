@@ -1,7 +1,203 @@
-export const AddMoney = () => {
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api";
+import { useAddMoneyMutation } from "@/redux/features/user/user.api";
+import type { TError } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Banknote, KeyRound, Send, Wallet } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
+
+export default function AddMoney() {
+  const { data: walletData, isLoading } = useGetMyWalletQuery(undefined);
+  const [addMoney] = useAddMoneyMutation();
+
+  const formSchema = z.object({
+    agentNumber: z.string().min(11, {
+      message: "Agent number must be at least 11 digits.",
+    }),
+    amount: z.string().min(1, {
+      message: "Amount must be at least 1.",
+    }),
+    password: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+    agentPassword: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      agentNumber: "",
+      amount: "",
+      password: "",
+      agentPassword: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const sendData = {
+      phone: walletData?.wallet?.phone,
+      agentNumber: values.agentNumber,
+      amount: values.amount,
+      password: values.password,
+      agentPassword: values.agentPassword,
+    };
+
+    try {
+      await addMoney(sendData).unwrap();
+      toast.success("Money added successfully!");
+      form.reset();
+    } catch (error: unknown) {
+      const err = error as TError;
+      toast.error(
+        err?.data?.message || "Failed to Add Money. Please try again."
+      );
+    }
+  }
+
   return (
-    <div>
-      <h1 className="text-2xl font-semibold text-primary">Add Money</h1>
-    </div>
+    <Card className="w-96 mx-auto mt-10">
+      <CardHeader>
+        <CardTitle className="text-center text-xl font-semibold text-primary">
+         Add Money
+        </CardTitle>
+      </CardHeader>
+
+      <Separator className="mb-4" />
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="agentNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Agent Number</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder="Enter Number"
+                        className="peer ps-9 [direction:inherit]"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                        <Wallet size={16} aria-hidden="true" />
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Amount</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder="Enter Amount"
+                        className="peer ps-9 [direction:inherit]"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                        <Banknote size={16} aria-hidden="true" />
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Password</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="Enter Password"
+                        className="peer ps-9 [direction:inherit]"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                        <KeyRound size={16} aria-hidden="true" />
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="agentPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Agent Password</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="Enter Password"
+                        className="peer ps-9 [direction:inherit]"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                        <KeyRound size={16} aria-hidden="true" />
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <CardFooter>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full gap-2 text-white"
+              >
+                {/* {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Processing...
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4" /> Send Money
+                </>
+              )} */}
+                <Send className="h-4 w-4" /> Add Money
+              </Button>
+            </CardFooter>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
-};
+}

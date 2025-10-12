@@ -17,14 +17,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api";
+import { useSendMoneyMutation } from "@/redux/features/user/user.api";
+import type { TError } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Banknote, KeyRound, Send, Wallet } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 export default function SendMoney() {
 
     const { data: walletData, isLoading } = useGetMyWalletQuery(undefined);
+    const [sendMoney] = useSendMoneyMutation();
 
    const formSchema = z.object({
     userNumber: z.string().min(11, {
@@ -49,7 +53,7 @@ export default function SendMoney() {
 
  
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
 
     const sendData = {
         phone: walletData?.wallet?.phone,
@@ -58,7 +62,14 @@ export default function SendMoney() {
         password: values.password
     }
 
-    console.log(sendData);
+    try {
+      await sendMoney(sendData).unwrap();
+      toast.success("Money sent successfully!");
+      form.reset();
+    } catch (error: unknown) {
+          const err = error as TError;
+      toast.error(err?.data?.message || "Failed to send money. Please try again.");
+    }
   }
 
 

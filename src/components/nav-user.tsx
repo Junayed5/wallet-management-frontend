@@ -1,15 +1,6 @@
-import {
-  BadgeCheck,
-  ChevronsUpDown,
-  LogOut,
-  Sparkles,
-} from "lucide-react"
+import { BadgeCheck, ChevronsUpDown, LogOut, Sparkles } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,33 +9,33 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
-import { useDispatch } from "react-redux"
+} from "@/components/ui/sidebar";
+import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { useDispatch } from "react-redux";
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    phone: string
-    avatar: string
-  }
+    name: string;
+    phone: string;
+    balance: string;
+  };
 }) {
   const { isMobile } = useSidebar();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
-    const handleLogout = async () => {
-     const data = await logout(undefined);
-     console.log(data)
-       dispatch(authApi.util.resetApiState());
-    };
+  const handleLogout = async () => {
+    const data = await logout(undefined);
+    console.log(data);
+    dispatch(authApi.util.resetApiState());
+  };
 
   return (
     <SidebarMenu>
@@ -55,9 +46,10 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              <Avatar className="h-8 w-16 rounded-lg">
+                <p className="bg-primary w-full flex justify-center items-center">
+                  TK. {user.balance}
+                </p>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -74,9 +66,10 @@ export function NavUser({
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <Avatar className="h-8 w-16 rounded-lg">
+                  <p className="bg-primary w-full flex justify-center items-center">
+                    TK. {user.balance}
+                  </p>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -97,7 +90,6 @@ export function NavUser({
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-             
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
@@ -108,5 +100,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
