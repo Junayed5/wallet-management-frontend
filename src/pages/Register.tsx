@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -34,6 +34,7 @@ export default function Register() {
   });
 
   const [createWallet] = useRegisterMutation();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const walletInfo = {
@@ -43,9 +44,9 @@ export default function Register() {
     };
 
     try {
-      const result = await createWallet(walletInfo).unwrap();
-      console.log(result)
+      await createWallet(walletInfo).unwrap();
       toast.success("Wallet created successfully!");
+      navigate("/login");
     } catch (error) {
       toast.error("Failed to create wallet.");
       console.error("Failed to create wallet:", error);
@@ -64,15 +65,16 @@ export default function Register() {
                  text-gray-900 dark:text-white min-h-[80vh] flex items-center justify-center px-6"
     >
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
-        <h2 className="text-3xl font-bold text-center mb-2">Welcome To MYCASH👋</h2>
+        <h2 className="text-3xl font-bold text-center mb-2">
+          Welcome To MYCASH👋
+        </h2>
         <p className="text-center text-gray-500 dark:text-gray-400 mb-6">
-          Create your{" "}
-          <span className="font-semibold text-primary">MYCASH</span> account
+          Create your <span className="font-semibold text-primary">MYCASH</span>{" "}
+          account
         </p>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            
             <div>
               <FormField
                 control={form.control}
@@ -81,11 +83,7 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="John Doe"
-                        {...field}
-                      />
+                      <Input type="text" placeholder="John Doe" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -100,11 +98,7 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="017********"
-                        {...field}
-                      />
+                      <Input type="text" placeholder="017********" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -144,7 +138,12 @@ export default function Register() {
           </form>
         </Form>
 
-        <h3>Already have an account? <Link to="/login" className="text-primary">Login</Link></h3>
+        <h3>
+          Already have an account?{" "}
+          <Link to="/login" className="text-primary">
+            Login
+          </Link>
+        </h3>
       </div>
     </motion.div>
   );

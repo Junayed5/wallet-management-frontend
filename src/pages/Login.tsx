@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -17,7 +17,8 @@ import { useWalletLoginMutation } from "@/redux/features/auth/auth.api";
 
 export default function Login() {
 
-  const [login] = useWalletLoginMutation()
+  const [login] = useWalletLoginMutation();
+  const navigate = useNavigate();
 
   const formSchema = z.object({
     phone: z
@@ -46,8 +47,10 @@ export default function Login() {
       const result = await login(walletInfo).unwrap();
       toast.success("Login successful!");
       console.log(result);
-    } catch (error: any) {
-      toast.error(error?.data?.message || "Login failed. Please try again.");
+      navigate("/");
+    } catch (error: unknown) {
+      const err = error as { data?: { message?: string } };
+      toast.error(err?.data?.message || "Login failed. Please try again.");
       console.error("Failed to login:", error);
     }
   };

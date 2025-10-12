@@ -2,9 +2,11 @@ import FilterDropdown from "@/components/Dropdown";
 import PaginationSection from "@/components/Pagination";
 import TransactionTable from "@/components/TansactionTable";
 import { useGetAllTransactionsQuery } from "@/redux/features/admin/admin.api";
+import { useState } from "react";
 
 const AllTransactions = () => {
-    const { data } = useGetAllTransactionsQuery(undefined);
+    const [page, setCurrentPage] = useState(1);
+    const { data } = useGetAllTransactionsQuery({page});
     return (
         <div className="container mx-auto">
             <div className="mb-4 flex items-center justify-between">
@@ -14,7 +16,7 @@ const AllTransactions = () => {
             <div className="my-4">
                 <TransactionTable data={data}/>
             </div>
-            <PaginationSection currentPage={1} totalPages={10}/>
+            <PaginationSection currentPage={data?.pagination?.page} setCurrentPage={setCurrentPage} totalPages={data?.pagination?.totalPages}/>
         </div>
     );
 };

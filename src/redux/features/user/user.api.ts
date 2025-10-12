@@ -3,9 +3,10 @@ import { baseApi } from "@/redux/baseApi";
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     userTransaction: builder.query({
-      query: (userNumber) => ({
+      query: ({userNumber, params}) => ({
         url: `/transactions/user/${userNumber}`,
         method: "GET",
+        params: params
       }),
     }),
     sendMoney: builder.mutation({

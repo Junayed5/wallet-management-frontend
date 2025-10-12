@@ -10,9 +10,10 @@ export const adminApi = baseApi.injectEndpoints({
       providesTags: ["Action"]
     }),
     getAllTransactions: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: "/transactions/all",
         method: "GET",
+        params: params
       }),
       providesTags: ["Action"]
     }),
