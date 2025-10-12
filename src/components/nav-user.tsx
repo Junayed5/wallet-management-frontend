@@ -25,17 +25,26 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
+import { useDispatch } from "react-redux"
 
 export function NavUser({
   user,
 }: {
   user: {
     name: string
-    email: string
+    phone: string
     avatar: string
   }
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+    const handleLogout = async () => {
+     const data = await logout(undefined);
+     console.log(data)
+       dispatch(authApi.util.resetApiState());
+    };
 
   return (
     <SidebarMenu>
@@ -52,7 +61,7 @@ export function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate text-xs">{user.phone}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -71,7 +80,7 @@ export function NavUser({
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate text-xs">{user.phone}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -91,7 +100,7 @@ export function NavUser({
              
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

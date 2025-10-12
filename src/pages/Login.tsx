@@ -46,8 +46,8 @@ export default function Login() {
       const result = await login(walletInfo).unwrap();
       toast.success("Login successful!");
       console.log(result);
-    } catch (error) {
-      toast.error("Failed to login.");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Login failed. Please try again.");
       console.error("Failed to login:", error);
     }
   };

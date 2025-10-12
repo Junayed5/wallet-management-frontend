@@ -6,13 +6,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useGetAllTransactionsQuery } from "@/redux/features/admin/admin.api"
 import type { TTransaction } from "@/types";
 
-export default function TransactionTable() {
+export default function TransactionTable({data}: {data: {transactions: TTransaction[]} | undefined}) {
 
-  const { data } = useGetAllTransactionsQuery(undefined);
-  // console.log(data)
 
   return (
     <div>

@@ -1,6 +1,9 @@
 // import type { IUserSideItems } from "@/types";
+import { AddMoney } from "@/pages/User/AddMoney";
+import SendMoney from "@/pages/User/SendMoney";
+import { WithdrawMoney } from "@/pages/User/WithdrawMoney";
 import type { IUserSideItem } from "@/types";
-import { Frame, PieChart, Map, Book } from "lucide-react";
+import {  Book, Send, SendHorizonalIcon, TicketPlus } from "lucide-react";
 import { lazy } from "react";
 
 const UserTransaction = lazy(() => import("@/pages/User/UserTransaction"));
@@ -8,21 +11,21 @@ const UserTransaction = lazy(() => import("@/pages/User/UserTransaction"));
 export const userSidebarItems: IUserSideItem[] = [
   {
     name: "Send Money",
-    url: "#",
-    icon: Frame,
-    component: UserTransaction,
+    url: "/user/send-money",
+    icon: Send,
+    component: SendMoney,
   },
   {
     name: "Withdraw",
-    url: "#",
-    icon: PieChart,
-    component: UserTransaction,
+    url: "/user/withdraw",
+    icon: SendHorizonalIcon,
+    component: WithdrawMoney,
   },
   {
     name: "Add Money",
-    url: "#",
-    icon: Map,
-    component: UserTransaction,
+    url: "/user/add-money",
+    icon: TicketPlus,
+    component: AddMoney,
   },
   {
     name: "Transaction History",
