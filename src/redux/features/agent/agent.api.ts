@@ -3,10 +3,12 @@ import { baseApi } from "@/redux/baseApi";
 const agentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     agentTransaction: builder.query({
-      query: (userNumber) => ({
+      query: ({userNumber,params}) => ({
         url: `/transactions/agent/${userNumber}`,
         method: "GET",
+        params: params
       }),
+      providesTags: ["Transaction"]
     }),
     cashIn: builder.mutation({
       query: (receiveInfo) => ({
@@ -14,6 +16,7 @@ const agentApi = baseApi.injectEndpoints({
         method: "POST",
         data: receiveInfo
       }),
+      invalidatesTags: ["Transaction"]
     }),
     cashOut: builder.mutation({
       query: (receiveInfo) => ({
@@ -21,6 +24,7 @@ const agentApi = baseApi.injectEndpoints({
         method: "POST",
         data: receiveInfo
       }),
+      invalidatesTags: ["Transaction"]
     }),
   }),
 });

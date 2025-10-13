@@ -29,7 +29,7 @@ export const authApi = baseApi.injectEndpoints({
         url: "/wallet/me",
         method: "GET",
       }),
-      providesTags: ["User"]
+      providesTags: ["User", "Transaction"]
     }),
   }),
 });

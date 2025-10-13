@@ -3,15 +3,23 @@ import TransactionTable from "@/components/TansactionTable";
 import { useGetMyWalletQuery } from "@/redux/features/auth/auth.api";
 import { useUserTransactionQuery } from "@/redux/features/user/user.api";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const UserTransaction = () => {
   const { data } = useGetMyWalletQuery(undefined);
   const [page, setCurrentPage] = useState(1);
 
-  const { data: userTransactions } = useUserTransactionQuery({
+  const { data: userTransactions, isLoading } = useUserTransactionQuery({
     userNumber: data?.wallet?.phone,
     params: { page },
   });
+  console.log(userTransactions)
+
+  if (isLoading) {
+    toast.loading("Loading transactions...", { id: "load-transaction" });
+  } else {
+    toast.success("Transactions loaded", { id: "load-transaction" });
+  }
 
   return (
     <div className="container mx-auto">

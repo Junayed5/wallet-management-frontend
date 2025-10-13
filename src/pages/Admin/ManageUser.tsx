@@ -3,8 +3,8 @@ import { role } from "@/constants/role";
 
 const ManageUser = () => {
     return (
-        <div>
-            <h1>Manage Users</h1>
+        <div className="container mx-auto">
+            <h1 className="font-semibold text-2xl text-primary">Manage Users</h1>
             <ActionTable role={role.user}/>
         </div>
     );

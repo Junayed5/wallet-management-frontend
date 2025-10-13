@@ -3,10 +3,18 @@ import PaginationSection from "@/components/Pagination";
 import TransactionTable from "@/components/TansactionTable";
 import { useGetAllTransactionsQuery } from "@/redux/features/admin/admin.api";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const AllTransactions = () => {
     const [page, setCurrentPage] = useState(1);
-    const { data } = useGetAllTransactionsQuery({page});
+    const { data, isLoading } = useGetAllTransactionsQuery({page});
+
+    if (isLoading) {
+        toast.loading("Loading transactions...", { id: "load-transaction" });
+    } else {
+        toast.success("Transactions loaded", { id: "load-transaction" });
+    }
+
     return (
         <div className="container mx-auto">
             <div className="mb-4 flex items-center justify-between">

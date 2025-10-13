@@ -8,6 +8,7 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
         params: params
       }),
+      providesTags: ["Transaction"]
     }),
     sendMoney: builder.mutation({
       query: (receiveInfo) => ({
@@ -15,6 +16,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         data: receiveInfo
       }),
+      invalidatesTags: ["Transaction"]
     }),
     withdrawMoney: builder.mutation({
       query: (receiveInfo) => ({
@@ -22,6 +24,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         data: receiveInfo
       }),
+      invalidatesTags: ["Transaction"]
     }),
     addMoney: builder.mutation({
       query: (receiveInfo) => ({
@@ -29,6 +32,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         data: receiveInfo
       }),
+      invalidatesTags: ["Transaction"]
     }),
   }),
 });

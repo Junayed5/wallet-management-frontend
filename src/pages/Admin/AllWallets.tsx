@@ -5,8 +5,8 @@ const AllWallets = () => {
 
 
     return (
-        <div>
-            <h1 className="font-semibold text-2xl">All Wallets</h1>
+        <div className="container mx-auto">
+            <h1 className="font-semibold text-2xl text-primary">Wallets</h1>
             <TableComponent/>
         </div>
     );
