@@ -41,9 +41,8 @@ export default function Navbar() {
 
   const [logout] = useLogoutMutation();
   const handleLogout = async () => {
-   const data = await logout(undefined);
-   console.log(data)
-     dispatch(authApi.util.resetApiState());
+    await logout(undefined);
+    dispatch(authApi.util.resetApiState());
   };
 
   return (

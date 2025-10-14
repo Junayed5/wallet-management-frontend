@@ -62,8 +62,6 @@ export default function CashOut() {
       agentPassword: values.agentPassword,
       userPassword: values.userPassword,
     };
-
-    console.log(sendData)
     try {
       await cashOut(sendData).unwrap();
       toast.success("Cash Out successfully!");

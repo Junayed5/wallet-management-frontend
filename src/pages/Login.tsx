@@ -44,9 +44,8 @@ export default function Login() {
       password: data.password,
     };
     try {
-      const result = await login(walletInfo).unwrap();
+      await login(walletInfo).unwrap();
       toast.success("Login successful!");
-      console.log(result);
       navigate("/");
     } catch (error: unknown) {
       const err = error as { data?: { message?: string } };

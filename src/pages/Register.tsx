@@ -51,8 +51,6 @@ export default function Register() {
       toast.error("Failed to create wallet.");
       console.error("Failed to create wallet:", error);
     }
-
-    console.log(data);
   };
 
   return (

@@ -32,8 +32,7 @@ export function NavUser({
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
   const handleLogout = async () => {
-    const data = await logout(undefined);
-    console.log(data);
+    await logout(undefined);
     dispatch(authApi.util.resetApiState());
   };
 
