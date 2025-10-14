@@ -16,13 +16,13 @@ This project is built using **React**, **Redux Toolkit**, and **RTK Query** for 
 
 ## ✨ Features
 
-✅ Role-based dashboards for User, Agent, and Admin
-✅ Secure login and logout
-✅ Wallet balance management
-✅ Send and receive money functionality
-✅ Transaction history tracking
-✅ Modern responsive UI using Tailwind + shadcn
-✅ API integration with backend (RTK Query)
+- ✅ Role-based dashboards for User, Agent, and Admin
+- ✅ Secure login and logout
+- ✅ Wallet balance management
+- ✅ Send and receive money functionality
+- ✅ Transaction history tracking
+- ✅ Modern responsive UI using Tailwind + shadcn
+- ✅ API integration with backend (RTK Query)
 
 ---
 
