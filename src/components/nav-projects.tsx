@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Folder,
-  Forward,
-  MoreHorizontal,
-  Trash2,
-  type LucideIcon,
-} from "lucide-react";
+import { Folder, Forward, MoreHorizontal, Trash2 } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -24,20 +18,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import type { TRole } from "@/types";
+import type { TRole, IconType } from "@/types";
+import { isValidElement } from "react";
 import { Link } from "react-router";
 
-export function NavProjects({
-  projects,
-  role,
-}: {
-  projects: {
-    name: string;
-    url: string;
-    icon: LucideIcon;
-  }[];
-  role: TRole;
-}) {
+export function NavProjects({ projects, role }: { projects: { name: string; url: string; icon?: IconType }[]; role: TRole; }) {
   const { isMobile } = useSidebar();
 
   return (
@@ -47,12 +32,23 @@ export function NavProjects({
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <Link to={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </Link>
-            </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <Link to={item.url}>
+                    {item.icon ? (
+                      typeof item.icon === "string" ? (
+                        <span>{item.icon}</span>
+                      ) : isValidElement(item.icon) ? (
+                        item.icon
+                      ) : (
+                        (() => {
+                          const Icon = item.icon as React.ElementType;
+                          return <Icon />;
+                        })()
+                      )
+                    ) : null}
+                    <span>{item.name}</span>
+                  </Link>
+                </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>

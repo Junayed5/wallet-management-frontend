@@ -13,7 +13,6 @@ const UserTransaction = () => {
     userNumber: data?.wallet?.phone,
     params: { page },
   });
-  console.log(userTransactions)
 
   if (isLoading) {
     toast.loading("Loading transactions...", { id: "load-transaction" });

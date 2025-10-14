@@ -1,4 +1,5 @@
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { isValidElement } from "react";
 
 import {
   Collapsible,
@@ -16,23 +17,9 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
-import type { TRole } from "@/types";
+import type { TRole, IconType } from "@/types";
 
-export function NavMain({
-  items,
-  role,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[], role: TRole;
-}) {
+export function NavMain({ items, role }: { items: { title: string; url: string; icon?: IconType; isActive?: boolean; items?: { title: string; url: string }[] }[]; role: TRole; }) {
   return (
     <SidebarGroup>
       {role === "ADMIN" && <SidebarGroupLabel>Platform</SidebarGroupLabel>}
@@ -48,7 +35,25 @@ export function NavMain({
               {item.items && (
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && <item.icon />}
+                    {/* Render different icon shapes safely: component, React node, or string */}
+                    {item.icon ? (
+                      typeof item.icon === "string" ? (
+                        <span>{item.icon}</span>
+                      ) : Array.isArray(item.icon) ? (
+                        /* unlikely: defensive */ <>{item.icon}</>
+                      ) : (
+                        // if it's already a React element, render it
+                        isValidElement(item.icon) ? (
+                          item.icon
+                        ) : (
+                          // otherwise treat it as a component and render
+                          (() => {
+                            const Icon = item.icon as React.ElementType;
+                            return <Icon />;
+                          })()
+                        )
+                      )
+                    ) : null}
                     <span>{item.title}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
